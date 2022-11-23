@@ -2,7 +2,7 @@ import  numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df= pd.read_csv('C:\Kodilla\learning-git-13\movies.csv')
+df= pd.read_csv('movies.csv')
 
 
 quantile = df['vote_average'].quantile(0.75)
@@ -39,7 +39,7 @@ plt.title('Średni przychód i budzet filmów w latach 2010-2016') # dodajemy ty
 plt.show()
 
 
-df_2= pd.read_csv('C:\Kodilla\learning-git-13\genres.csv')
+df_2= pd.read_csv('genres.csv')
 
 data_2= df.groupby(['genre_id','title']).mean()
 
