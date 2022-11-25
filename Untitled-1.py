@@ -24,18 +24,20 @@ print(zx)
 
 z=np.arange(3)
 
-def million(z, pos):
-        return 'USD {:5.1f}MLD'.format(z*1e-6)
+def million(x, pos):
+        return '{:2.1f}M'.format(z*1e-6)
 
-fig, ax = plt.subplots()
+fig = plt.figure()
+axes = fig.add_axes([0,0,1,1])
+axes.plot(df['release_date'],chart['budget'],label='budget',color = 'red')
+axes.bar (df['release_date'],chart['revenue'],label='revenue')
+axes.legend(loc=(1.05,0.9))
+axes.set_title('Średni przychód i budżet filmu w latach 2010-2016')
 formatter = plt.FuncFormatter(million)
-ax.yaxis.set_major_formatter(formatter)
-chart['budget'].plot(kind='bar')
-chart['revenue'].plot(kind='line',color='red',label='revenue')
-plt.legend(loc=1) 
-plt.xlabel('Lata')  
-plt.ylabel('Wartość')  
-plt.title('Średni przychód i budzet filmów w latach 2010-2016') 
+axes.yaxis.set_major_formatter(formatter)
+plt.xlabel('Lata') # dodajemy opis osi X
+plt.ylabel('Wartość') # dodajemy opis osi Y
+plt.title('Średni przychód i budzet filmów w latach 2010-2016') # dodajemy tytuł wykresu
 plt.show()
 
 
