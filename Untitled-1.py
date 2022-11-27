@@ -2,7 +2,7 @@ import  numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df= pd.read_csv('movies.csv')
+df= pd.read_csv('C:\Kodilla\learning-git-13\movies.csv')
 
 
 quantile = df['vote_count'].quantile(0.75)
@@ -12,28 +12,41 @@ print(result)
 
 
 
+# ustawiene typu datowego dla kolumny:
 df['release_date'] = pd.to_datetime(df['release_date'])
 
 
-df["year"] = df.release_date.dt.year
+# ustawienie roku
+df['release_year'] = df['release_date'].dt.year
 
-zx=df.groupby("year").agg({"revenue": np.mean, "budget": np.mean})
-chart=zx.loc['2010-01-01':'2017-12-31', ['revenue', 'budget']]
-print(zx)
+# wybranie tylko potrzebnych kolumn
+df = df[["release_year", 'budget', 'revenue']]
+
+# pogrupowanie po roku z agregacją mean
+by_release_date = df.groupby('release_year').mean()
+
+# wybranie zakresu
+df = by_release_date['2010.0' : '2016.0']
+
         
 
-z=np.arange(3)
+x=np.arange(3)
+
+# wykresy
 
 def million(x, pos):
-        return '{:2.1f}M'.format(z*1e-6)
+  return '{:2.1f}M'.format(x*1e-6)
 
 fig = plt.figure()
 axes = fig.add_axes([0,0,1,1])
-axes.plot(df['release_date'],chart['budget'],label='budget',color = 'red')
-axes.bar (df['release_date'],chart['revenue'],label='revenue')
+axes.plot(df.index,df['budget'],label='budget',color = 'red')
+axes.bar(df.index, df['revenue'],label='revenue')
+
 axes.legend(loc=(1.05,0.9))
 axes.set_title('Średni przychód i budżet filmu w latach 2010-2016')
+
 formatter = plt.FuncFormatter(million)
+
 axes.yaxis.set_major_formatter(formatter)
 plt.xlabel('Lata') # dodajemy opis osi X
 plt.ylabel('Wartość') # dodajemy opis osi Y
@@ -41,7 +54,8 @@ plt.title('Średni przychód i budzet filmów w latach 2010-2016') # dodajemy ty
 plt.show()
 
 
-df_2= pd.read_csv('genres.csv')
+df_2= pd.read_csv('C:\Kodilla\learning-git-13\genres.csv')
+df= pd.read_csv('C:\Kodilla\learning-git-13\movies.csv')
 
 data_2= df.groupby(['genre_id','title']).mean()
 
